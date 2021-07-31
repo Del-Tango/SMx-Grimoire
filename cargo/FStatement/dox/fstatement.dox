@@ -1,0 +1,13 @@
+#!/bin/bash
+#
+# Regards, the Alveare Solutions society.
+#
+# F.Statement DOX
+# u
+# nction
+
+cat <<EOF
+
+EOF
+
+exit $?

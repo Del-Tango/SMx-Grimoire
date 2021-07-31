@@ -1,0 +1,118 @@
+#!/bin/bash
+#
+# Regards, the Alveare Solutions society.
+#
+# F.Statement
+# u
+# nction
+
+declare -A FS_DEFAULT
+declare -A FS_LIB
+declare -A FS_SOURCE
+declare -A FS_CARGO
+
+# [ NOTE ]: Absolute directory path the current file is in.
+FS_DIRECTORY="$(
+    cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd
+)"
+CONF_FILE_PATH="$FS_DIRECTORY/conf/fstatement.conf"
+
+if [ ! -f "$CONF_FILE_PATH" ]; then
+    echo "[ WARNING ]: Config file ($CONF_FILE_PATH) not found."
+    exit 1
+else
+    echo "[ DEBUG ]: Sourcing config file ($CONF_FILE_PATH)"
+    source "$CONF_FILE_PATH"
+fi
+
+for script in ${!FS_SOURCE[@]}; do
+    source ${FS_SOURCE[$script]}
+    if [ $? -ne 0 ]; then
+        echo "[ NOK ]: Something went wrong."\
+            "Could not load ($script) script."
+    else
+        echo "[ OK ]: Successfully loaded ($script) script."
+    fi
+done
+
+for library in ${!FS_LIB[@]}; do
+    source ${FS_LIB[$library]}
+    if [ $? -ne 0 ]; then
+        echo "[ NOK ]: Something went wrong."\
+            "Could not load ($library) library."
+    else
+        echo "[ OK ]: Successfully loaded ($library) library."
+    fi
+done
+
+# DISPLAY
+
+# INIT
+
+function init_fstatement_cli () {
+    project_setup
+    clear; echo ${BLUE}; display_header; echo ${RESET}; display_stats
+    while :; do echo "
+[ ${BLUE}F.Statement${RESET} ]: Type action BOM IDs separated"\
+            "by comma (${MAGENTA},${RESET}) or (${MAGENTA}.exit${RESET})"
+        read -p "${MAGENTA}B.O.M${RESET}:ID${MAGENTA}>${CYAN} " BOM_ID
+        if [[ "$BOM_ID" == ".exit" ]]; then
+            break
+        fi
+        echo
+        for bill_of_materials_id in `echo "$BOM_ID" | tr ',' ' '`; do
+            OUTPUT=`${MD_CARGO['fstatement']} \
+                --bom-db="${MD_DEFAULT['bom-db']}" \
+                --log-file="${MD_DEFAULT['log-file']}" \
+                --action='search' \
+                --search='bom-id' \
+                --bom-id="$bill_of_materials_id" \
+                --silent 2> /dev/null | tr ',' ' '`
+            if [ -z "$OUTPUT" ]; then
+                echo "No records found!"
+            else
+                echo "$OUTPUT"
+            fi
+        done; echo
+    done
+}
+
+function init_fstatement_test () {
+    project_setup
+    run_test_suit
+    return $?
+}
+
+function init_fstatement_util () {
+    ${MD_CARGO['fstatement']} $@
+    return $?
+}
+
+# MISCELLANEOUS
+
+for opt in "$@"
+do
+    case "$opt" in
+        '--CLI')
+            FS_RUNNING_MODE='CLI'
+            ;;
+        '-t'|'--test')
+            FS_RUNNING_MODE='TEST'
+            ;;
+    esac
+done
+
+case "$FS_RUNNING_MODE" in
+    'CLI')
+        init_fstatement_cli $@
+        ;;
+    'TEST')
+        init_fstatement_test
+        ;;
+    *)
+        init_fstatement_util $@
+        ;;
+esac
+
+exit $?
+

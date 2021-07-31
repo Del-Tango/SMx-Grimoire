@@ -1,0 +1,72 @@
+#!/bin/bash
+#
+# Regards, the Alveare Solutions society.
+#
+declare -A GR_DEFAULT
+declare -A GR_LIB
+declare -A GR_SOURCE
+declare -A GR_ADDONS
+declare -A GR_CARGO
+declare -A GR_ADDONS_ARGS
+
+# [ NOTE ]: Absolute directory path the current file is in.
+GR_DIRECTORY="$(
+    cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd
+)"
+CONF_FILE_PATH="$GR_DIRECTORY/conf/smx-grimoire.conf"
+
+if [ ! -f "$CONF_FILE_PATH" ]; then
+    echo "[ WARNING ]: Config file ($CONF_FILE_PATH) not found."
+    return 1
+else
+    source "$CONF_FILE_PATH"
+fi
+
+for script in ${!GR_SOURCE[@]}; do
+    source ${GR_SOURCE[$script]}
+    if [ $? -ne 0 ]; then
+        echo "[ NOK ]: Something went wrong."\
+            "Could not load ($script) script."
+    else
+        echo "[ OK ]: Successfully loaded ($script) script."
+    fi
+done
+
+for library in ${!GR_LIB[@]}; do
+    source ${GR_LIB[$library]}
+    if [ $? -ne 0 ]; then
+        echo "[ NOK ]: Something went wrong."\
+            "Could not load ($library) library."
+    else
+        echo "[ OK ]: Successfully loaded ($library) library."
+    fi
+done
+
+# MISCELLANEOUS
+
+function init_grimoire () {
+    project_setup
+    if [ ${#@} -eq 0 ]; then
+        display_banners
+        init_menu 'MainController'
+        return $?
+    fi
+    local EXIT_CODE=$?
+    return $EXIT_CODE
+}
+
+init_grimoire $@
+exit $?
+
+# CODE DUMP
+
+#   for opt in ${@}; do
+#       case "$opt" in
+#           --setup)
+#               # TODO
+#               local EXIT_CODE=$?
+#               break
+#               ;;
+#       esac
+#   done
+

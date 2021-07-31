@@ -1,0 +1,22 @@
+Wed Jun 23 19:56:19 EEST 2021
+[35mWed Jun 23 20:16:45 EEST 2021[m - [ [32mOK[m ]: Successfully loaded [34mF.Statement[m default setting ([32mlog-file - /home/sephermacronix/Projects/FStatement/logs/fstatement.log[m).
+[35mWed Jun 23 20:16:45 EEST 2021[m - [ [32mOK[m ]: Successfully loaded [34mF.Statement[m default setting ([32mlib-dir - /home/sephermacronix/Projects/FStatement/lib[m).
+[35mWed Jun 23 20:16:45 EEST 2021[m - [ [32mOK[m ]: Successfully loaded [34mF.Statement[m default setting ([32mdox-dir - /home/sephermacronix/Projects/FStatement/dox[m).
+[35mWed Jun 23 20:16:45 EEST 2021[m - [ [32mOK[m ]: Successfully loaded [34mF.Statement[m default setting ([32mconf-dir - /home/sephermacronix/Projects/FStatement/conf[m).
+[35mWed Jun 23 20:16:45 EEST 2021[m - [ [32mOK[m ]: Successfully loaded [34mF.Statement[m default setting ([32msrc-dir - /home/sephermacronix/Projects/FStatement/src[m).
+[35mWed Jun 23 20:16:45 EEST 2021[m - [ [32mOK[m ]: Successfully loaded [34mF.Statement[m default setting ([32mconf-file - /home/sephermacronix/Projects/FStatement/conf/fstatement.conf[m).
+[35mWed Jun 23 20:16:45 EEST 2021[m - [ [32mOK[m ]: Successfully loaded [34mF.Statement[m default setting ([32mproject-path - /home/sephermacronix/Projects/FStatement[m).
+[35mWed Jun 23 20:16:45 EEST 2021[m - [ [32mOK[m ]: Successfully loaded [34mF.Statement[m default setting ([32mlog-dir - /home/sephermacronix/Projects/FStatement/logs[m).
+[35mWed Jun 23 20:16:45 EEST 2021[m - [ [32mOK[m ]: Successfully loaded [34mF.Statement[m logging levels.
+[35mWed Jun 23 20:16:45 EEST 2021[m - [ [32mOK[m ]: Successfully loaded cargo ([32mfstatement - /home/sephermacronix/Projects/FStatement/src/fstatement.sh[m).
+[35mWed Jun 23 20:16:45 EEST 2021[m - [ [32mOK[m ]: Successfully loaded APT dependencies ([32mapt touch sed awk egrep[m).
+[ OK ]: Dependency installed! (apt)
+[ OK ]: Dependency installed! (touch)
+[ OK ]: Dependency installed! (sed)
+[ OK ]: Dependency installed! (awk)
+[ ... ]: Action: (search)
+[ ... ]: Search: (bom-id)
+[ OK ]: BOM ID: (eyv10)
+[ DEBUG ]: Executing: (awk -F, -v bom_id="eyv10" '$1 !~ "#" && $1 !~ "^$" && $1 ~ bom_id {print $0}' '/home/sephermacronix/Projects/FStatement/data/fstatement.db')
+[ DEBUG ]: Exit Code (0) 
+[ OK ]: F.Statement terminated successfully!
