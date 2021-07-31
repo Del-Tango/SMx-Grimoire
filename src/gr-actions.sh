@@ -256,7 +256,7 @@ function action_lecrik_eyz_cheat_sheet () {
             break
         fi; echo
         ${GR_CARGO['lectrik-eyz']} $CARGO_ARGS
-        local EXIT_CODE=$?
+        local EXIT_CODE=$?; echo
         if [ $EXIT_CODE -ne 0 ]; then
             warning_msg "Failures detected! (${RED}${EXIT_CODE}${RESET})
             "
