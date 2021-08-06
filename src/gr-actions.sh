@@ -293,8 +293,31 @@ function action_star_link_cheat_sheet () {
     return $?
 }
 
+function action_alien_brain_cheat_sheet () {
+    clear && ${GR_CARGO['alien-brain']} --help
+    info_msg "Type cheat sheet args or (${MAGENTA}.back${RESET}) -"
+    while :; do
+        local CARGO_ARGS=`fetch_data_from_user "${BLUE}Alien(B)Rain${RESET}"`
+        if [ $? -ne 0 ] || [ -z "$CARGO_ARGS" ]; then
+            break
+        fi; echo
+        ${GR_CARGO['alien-brain']} $CARGO_ARGS
+        local EXIT_CODE=$?; echo
+        if [ $EXIT_CODE -ne 0 ]; then
+            warning_msg "Failures detected! (${RED}${EXIT_CODE}${RESET})
+            "
+        fi
+        fetch_ultimatum_from_user "[ ${YELLOW}Q/A${RESET} ]: Would you like to go again? ${YELLOW}Y/N${RESET}"
+        if [ $? -ne 0 ]; then
+            break
+        fi; echo
+        info_msg "Type cheat sheet args or (${MAGENTA}.back${RESET}) -"
+    done
+    return $?
+}
+
 function action_machine_wizard_magik_cheat_sheets () {
-    local CHEAT_SHEETS=( 'lectrik-eyz' 'star-link' )
+    local CHEAT_SHEETS=( 'lectrik-eyz' 'star-link' 'alien-(b)-rain' )
     echo; info_msg "Select ${RED}Electromancer${RESET} cheat sheet -
     "
     local CARGO_KEY=`fetch_selection_from_user \
@@ -309,6 +332,9 @@ function action_machine_wizard_magik_cheat_sheets () {
                 ;;
             'star-link')
                 action_star_link_cheat_sheet
+                ;;
+            'alien-(b)-rain')
+                action_alien_brain_cheat_sheet
                 ;;
             *)
                 warning_msg "Invalid cheat sheet! (${RED}${CARGO_KEY}${RESET})"
