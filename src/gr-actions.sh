@@ -247,15 +247,17 @@ function action_read_occult_text () {
     return $?
 }
 
-function action_lecrik_eyz_cheat_sheet () {
-    clear && ${GR_CARGO['lectrik-eyz']} --help
+function action_cheat_sheet () {
+    local CHEAT_SHEET="$1"
+    local CS_LABEL="$2"
+    clear && ${GR_CARGO[$CHEAT_SHEET]} --help
     info_msg "Type cheat sheet args or (${MAGENTA}.back${RESET}) -"
     while :; do
-        local CARGO_ARGS=`fetch_data_from_user "${BLUE}Lectrik:Eyz${RESET}"`
+        local CARGO_ARGS=`fetch_data_from_user "${BLUE}${CS_LABEL}${RESET}"`
         if [ $? -ne 0 ] || [ -z "$CARGO_ARGS" ]; then
             break
         fi; echo
-        ${GR_CARGO['lectrik-eyz']} $CARGO_ARGS
+        ${GR_CARGO[$CHEAT_SHEET]} $CARGO_ARGS
         local EXIT_CODE=$?; echo
         if [ $EXIT_CODE -ne 0 ]; then
             warning_msg "Failures detected! (${RED}${EXIT_CODE}${RESET})
@@ -267,57 +269,31 @@ function action_lecrik_eyz_cheat_sheet () {
         fi; echo
         info_msg "Type cheat sheet args or (${MAGENTA}.back${RESET}) -"
     done
+    return $?
+}
+
+function action_lecrik_eyz_cheat_sheet () {
+    action_cheat_sheet 'lectrik-eyz' 'Lectrik:Eyz'
     return $?
 }
 
 function action_star_link_cheat_sheet () {
-    clear && ${GR_CARGO['star-link']} --help
-    info_msg "Type cheat sheet args or (${MAGENTA}.back${RESET}) -"
-    while :; do
-        local CARGO_ARGS=`fetch_data_from_user "${BLUE}StarLink${RESET}"`
-        if [ $? -ne 0 ] || [ -z "$CARGO_ARGS" ]; then
-            break
-        fi; echo
-        ${GR_CARGO['star-link']} $CARGO_ARGS
-        local EXIT_CODE=$?; echo
-        if [ $EXIT_CODE -ne 0 ]; then
-            warning_msg "Failures detected! (${RED}${EXIT_CODE}${RESET})
-            "
-        fi
-        fetch_ultimatum_from_user "[ ${YELLOW}Q/A${RESET} ]: Would you like to go again? ${YELLOW}Y/N${RESET}"
-        if [ $? -ne 0 ]; then
-            break
-        fi; echo
-        info_msg "Type cheat sheet args or (${MAGENTA}.back${RESET}) -"
-    done
+    action_cheat_sheet 'star-link' 'StarLink'
     return $?
 }
 
 function action_alien_brain_cheat_sheet () {
-    clear && ${GR_CARGO['alien-brain']} --help
-    info_msg "Type cheat sheet args or (${MAGENTA}.back${RESET}) -"
-    while :; do
-        local CARGO_ARGS=`fetch_data_from_user "${BLUE}Alien(B)Rain${RESET}"`
-        if [ $? -ne 0 ] || [ -z "$CARGO_ARGS" ]; then
-            break
-        fi; echo
-        ${GR_CARGO['alien-brain']} $CARGO_ARGS
-        local EXIT_CODE=$?; echo
-        if [ $EXIT_CODE -ne 0 ]; then
-            warning_msg "Failures detected! (${RED}${EXIT_CODE}${RESET})
-            "
-        fi
-        fetch_ultimatum_from_user "[ ${YELLOW}Q/A${RESET} ]: Would you like to go again? ${YELLOW}Y/N${RESET}"
-        if [ $? -ne 0 ]; then
-            break
-        fi; echo
-        info_msg "Type cheat sheet args or (${MAGENTA}.back${RESET}) -"
-    done
+    action_cheat_sheet 'alien-brain' 'Alien(B)Rain'
+    return $?
+}
+
+function action_lost_rider_cheat_sheet () {
+    action_cheat_sheet 'lost-rider' 'LosTRider'
     return $?
 }
 
 function action_machine_wizard_magik_cheat_sheets () {
-    local CHEAT_SHEETS=( 'lectrik-eyz' 'star-link' 'alien-(b)-rain' )
+    local CHEAT_SHEETS=( 'lectrik-eyz' 'star-link' 'alien-(b)-rain' 'lost-rider' )
     echo; info_msg "Select ${RED}Electromancer${RESET} cheat sheet -
     "
     local CARGO_KEY=`fetch_selection_from_user \
@@ -335,6 +311,9 @@ function action_machine_wizard_magik_cheat_sheets () {
                 ;;
             'alien-(b)-rain')
                 action_alien_brain_cheat_sheet
+                ;;
+            'lost-rider')
+                action_lost_rider_cheat_sheet
                 ;;
             *)
                 warning_msg "Invalid cheat sheet! (${RED}${CARGO_KEY}${RESET})"
