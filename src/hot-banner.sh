@@ -46,7 +46,10 @@ function display_external_ipv4_address () {
 }
 
 function display_local_ipv4_address () {
-    ifconfig | grep inet | grep '\.' | grep broadcast | awk '{print $2}'
+    local IPv4_ADDRS=(
+        `ifconfig | grep inet | grep '\.' | grep broadcast | awk '{print $2}' | grep '192.168'`
+    )
+    echo "${IPv4_ADDRS[0]}"
     return $?
 }
 
