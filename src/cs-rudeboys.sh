@@ -1,4 +1,4 @@
-#!/bin/bash
+hydra#!/bin/bash
 #
 # Regards, the Alveare Solutions society,
 #
@@ -513,7 +513,6 @@ function exec_msg () {
 # INIT
 
 function init_cheat_sheet () {
-    echo "[ WARNING ]: Under construction, building..."
     local INSTRUCTION="$1"
     case "$INSTRUCTION" in
         -h|--help)
