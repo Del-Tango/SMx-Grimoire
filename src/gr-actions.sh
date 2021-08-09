@@ -292,8 +292,15 @@ function action_lost_rider_cheat_sheet () {
     return $?
 }
 
+function action_rude_boys_cheat_sheet () {
+    action_cheat_sheet 'rude-boys' 'RudeBoys'
+    return $?
+}
+
 function action_machine_wizard_magik_cheat_sheets () {
-    local CHEAT_SHEETS=( 'lectrik-eyz' 'star-link' 'alien-(b)-rain' 'lost-rider' )
+    local CHEAT_SHEETS=(
+        'lectrik-eyz' 'star-link' 'alien-(b)-rain' 'lost-rider' 'rude-boys'
+    )
     echo; info_msg "Select ${RED}Electromancer${RESET} cheat sheet -
     "
     local CARGO_KEY=`fetch_selection_from_user \
@@ -314,6 +321,9 @@ function action_machine_wizard_magik_cheat_sheets () {
                 ;;
             'lost-rider')
                 action_lost_rider_cheat_sheet
+                ;;
+            'rude-boys')
+                action_rude_boys_cheat_sheet
                 ;;
             *)
                 warning_msg "Invalid cheat sheet! (${RED}${CARGO_KEY}${RESET})"
