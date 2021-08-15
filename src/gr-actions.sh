@@ -297,9 +297,15 @@ function action_rude_boys_cheat_sheet () {
     return $?
 }
 
+function action_kirov_cheat_sheet () {
+    action_cheat_sheet 'kirov' 'Kirov'
+    return $?
+}
+
 function action_machine_wizard_magik_cheat_sheets () {
     local CHEAT_SHEETS=(
-        'lectrik-eyz' 'star-link' 'alien-(b)-rain' 'lost-rider' 'rude-boys'
+        'Lectrik-Eyz' 'Star-Link' 'Alien(B)Rain' 'Lost-Rider' 'Rude-Boys'
+        'Kirov'
     )
     echo; info_msg "Select ${RED}Electromancer${RESET} cheat sheet -
     "
@@ -310,20 +316,23 @@ function action_machine_wizard_magik_cheat_sheets () {
     fi
     while :; do
         case "$CARGO_KEY" in
-            'lectrik-eyz')
+            'Lectrik-Eyz')
                 action_lecrik_eyz_cheat_sheet
                 ;;
-            'star-link')
+            'Star-Link')
                 action_star_link_cheat_sheet
                 ;;
-            'alien-(b)-rain')
+            'Alien(B)Rain')
                 action_alien_brain_cheat_sheet
                 ;;
-            'lost-rider')
+            'Lost-Rider')
                 action_lost_rider_cheat_sheet
                 ;;
-            'rude-boys')
+            'Rude-Boys')
                 action_rude_boys_cheat_sheet
+                ;;
+            'Kirov')
+                action_kirov_cheat_sheet
                 ;;
             *)
                 warning_msg "Invalid cheat sheet! (${RED}${CARGO_KEY}${RESET})"
