@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 #
 # Regards, the Alveare Solutions society.
 #
@@ -23,7 +23,7 @@ else
 fi
 
 for script in ${!GR_SOURCE[@]}; do
-    source ${GR_SOURCE[$script]}
+    source "${GR_SOURCE[$script]}"
     if [ $? -ne 0 ]; then
         echo "[ NOK ]: Something went wrong."\
             "Could not load ($script) script."
